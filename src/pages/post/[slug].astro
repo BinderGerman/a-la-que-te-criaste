@@ -1,0 +1,67 @@
+---
+// ./src/pages/post/[slug].astro
+import type { SanityDocument } from "@sanity/client";
+import { loadQuery } from "../../sanity/lib/load-query";
+import Layout from "../../layouts/Layout.astro";
+import PortableText from "../../components/PortableText.astro";
+import { urlFor } from "../../sanity/lib/image";
+
+/* 
+export const prerender = true; */
+
+export async function getStaticPaths() {
+  const { data: posts } = await loadQuery<SanityDocument[]>({
+    query: `*[_type == "post"]`,
+  });
+
+  return posts.map(({ slug }) => {
+    return {
+      params: {
+        slug: slug.current,
+      },
+    };
+  });
+}
+
+
+
+const { params } = Astro;
+
+const { data: post } = await loadQuery<{ title: string; body: any[]; mainImage: any }>({
+  query: `*[_type == "post" && slug.current == $slug][0]`,
+  params,
+
+  
+});
+
+console.log(post)
+
+
+
+
+---
+
+<Layout title={post.title}>
+  <section class="post">
+    <!-- {
+      post.mainImage ? (
+        <img
+          class="post__cover"
+          src={urlFor(post.mainImage).url()}
+          alt="Cover image"
+        />  
+      ) : (
+        <div class="post__cover--none" />
+      )
+    } -->
+
+    <div class="post__container">
+      <h2 class="post__title">{post.title}</h2>
+      <p class="post_excerpt">Acá va la bajada del artículo</p>
+      <p class="post__date">Acá va la fecha del Post</p>
+      <div class="post__content">
+        <PortableText value={post.body} />
+      </div>
+    </div>
+  </section>
+</Layout>
