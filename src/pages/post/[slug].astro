@@ -34,7 +34,7 @@ const { data: post } = await loadQuery<{ title: string; body: any[]; mainImage: 
   
 });
 
-
+export const prerender = true;
 ---
 
 <Layout title={post.title}>
