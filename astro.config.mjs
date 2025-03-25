@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
@@ -27,5 +28,12 @@ export default defineConfig({
       },
     }), 
     react()
-  ]
+  ],
+  output: "server",
+  adapter: cloudflare(),
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/compile'
+    }
+  }
 });
