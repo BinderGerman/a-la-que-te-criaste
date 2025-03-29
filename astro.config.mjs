@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
 
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
@@ -16,6 +15,7 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 
 // https://astro.build/config
 export default defineConfig({
+  output: "static",
   integrations: [
     sanity({
       projectId: '9fbd0yax',
@@ -29,8 +29,6 @@ export default defineConfig({
     }), 
     react()
   ],
-  output: "server",
-  adapter: cloudflare(),
   image: {
     service: {
       entrypoint: 'astro/assets/services/compile'

@@ -6,7 +6,7 @@ import Layout from "../../layouts/Layout.astro";
 import PortableText from "../../components/PortableText.astro";
 import { urlFor } from "../../sanity/lib/image";
 
-export const prerender = true; 
+
 
 export async function getStaticPaths() {
   const { data: posts } = await loadQuery<SanityDocument[]>({
